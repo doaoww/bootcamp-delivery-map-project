@@ -1,5 +1,5 @@
 import pool from "@/lib/db";
-import { geocodeAddress } from "@/lib/geocode";
+import { GeocodeBuilderV1 } from "@/lib/geocode";
 
 export async function GET() {
     try {
@@ -36,7 +36,8 @@ export async function POST(request: Request) {
         }
 
         const text = address.trim();
-        const coordinates = await geocodeAddress(text);
+        const GeocodeBuilder = new GeocodeBuilderV1();
+        const coordinates = await GeocodeBuilder.resolve(text);
 
         if (!coordinates) {
             return Response.json(
