@@ -1,4 +1,4 @@
-import { buildRoute } from "@/lib/routing";
+import { TwoOptOptimizer } from "@/lib/routing";
 import type { Point } from "@/types/point";
 
 export async function POST(request: Request) {
@@ -6,7 +6,9 @@ export async function POST(request: Request) {
         const data = await request.json();
         const points: Point[] = data.points;
 
-        const route = buildRoute(points);
+        const optimizer = new TwoOptOptimizer();
+        const route = optimizer.optimize(points);
+
         return Response.json(route);
     } catch (error) {
         if (error instanceof SyntaxError) {
