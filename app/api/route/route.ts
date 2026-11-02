@@ -1,4 +1,4 @@
-import { RouteOptimizer } from "@/lib/routing";
+import { buildRoute } from "@/lib/routing";
 import type { Point } from "@/types/point";
 
 export async function POST(request: Request) {
@@ -6,7 +6,7 @@ export async function POST(request: Request) {
         const data = await request.json();
         const points: Point[] = data.points;
 
-        const route = optimizer(points);
+        const route = buildRoute(points);
         return Response.json(route);
     } catch (error) {
         if (error instanceof SyntaxError) {
