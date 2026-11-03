@@ -1,14 +1,10 @@
 import pool from "@/lib/db";
-import { GeocodeBuilderV1 } from "@/lib/geocode";
+import { PointService } from "@/modules/points";
 
 export async function GET() {
     try {
-        const result = await pool.query(
-            `SELECT id, address, latitude, longitude
-             FROM points ORDER BY id ASC`
-        );
-
-        return Response.json(result.rows);
+        const result = await PointService.getAll();
+        return Response.json(result);
     } catch (error) {
         console.error("GET points:", error);
 
@@ -24,36 +20,9 @@ export async function POST(request: Request) {
         const body = await request.json();
         const address = body?.address;
 
-        if (
-            typeof address !== "string" ||
-            address.trim().length < 3 ||
-            address.length > 300
-        ) {
-            return Response.json(
-                { error: "Введите нормальный адрес" },
-                { status: 400 }
-            );
-        }
+        const result = await PointService.putOne(address);
 
-        const text = address.trim();
-        const GeocodeBuilder = new GeocodeBuilderV1();
-        const coordinates = await GeocodeBuilder.resolve(text);
-
-        if (!coordinates) {
-            return Response.json(
-                { error: "Адрес не найден" },
-                { status: 404 }
-            );
-        }
-
-        const result = await pool.query(
-            `INSERT INTO points (address, latitude, longitude)
-             VALUES ($1, $2, $3)
-                 RETURNING id, address, latitude, longitude`,
-            [text, coordinates.latitude, coordinates.longitude]
-        );
-
-        return Response.json(result.rows[0], { status: 201 });
+        return Response.json(result, { status: 201 });
     } catch (error) {
         return Response.json(
             { error: "Не удалось добавить точку" },
