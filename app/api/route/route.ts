@@ -18,3 +18,5 @@ export async function POST(request: Request) {
         return Response.json({ error: "Не удалось построить маршрут" }, { status: 500 });
     }
 }
+
+
