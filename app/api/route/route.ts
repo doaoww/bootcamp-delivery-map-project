@@ -1,4 +1,4 @@
-import { TwoOptOptimizer } from "@/lib/routing";
+import { RouteService } from "@/modules/routing";
 import type { Point } from "@/types/point";
 
 export async function POST(request: Request) {
@@ -6,8 +6,8 @@ export async function POST(request: Request) {
         const data = await request.json();
         const points: Point[] = data.points;
 
-        const optimizer = new TwoOptOptimizer();
-        const route = optimizer.optimize(points);
+
+        const route = RouteService.optimize(points);
 
         return Response.json(route);
     } catch (error) {
