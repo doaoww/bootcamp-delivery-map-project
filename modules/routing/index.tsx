@@ -1,5 +1,5 @@
-import {RouteRepositoryV1} from "@/modules/routing/domain/RouteRepository";
+import {RouteOptimizerServiceV1} from "@/modules/routing/domain/RouteOptimizerService";
 import {RouteServiceV1 } from "@/modules/routing/application/RouteService"
 
-export const RouteRepository = new RouteRepositoryV1();
+export const RouteOptimizerService = new RouteOptimizerServiceV1();
 export const RouteService= new RouteServiceV1();
