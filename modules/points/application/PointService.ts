@@ -4,32 +4,43 @@ import {PointRepository} from "@/modules/points/";
 import {GeocodeBuilder} from "@/lib/";
 
 interface PointService {
-    getAll(): Promise<Point[]>;
-    putOne(address: string): Promise<Point>;
+    checkAddress(address: string): Promise<Point>;
+    checkCoordinates(latitude:number,longitude:number) : Promise<Point>;
 }
 
 export class PointServiceV1 implements PointService {
-    async getAll(){
-        return await PointRepository.getAll();
-    }
 
-    async putOne(address: string){
-        if (
-            typeof address !== "string" ||
-            address.trim().length < 3 ||
-            address.length > 300
-        ) {
-            throw new Error("Введите нормальный адрес")
+    async checkAddress(address: string): Promise<Point> { //проверить есть ли эта точка в табл поинтс если да то вернуть
+        //если нет то putPoint и GeocodeBuilder
+        address = address.trim();
+        const existing = await PointRepository.findAddress(address);
+        if(existing){
+            return existing;
         }
 
-        const text = address.trim();
-        const coordinates = await GeocodeBuilder.resolve(text);
+        const coordinates = await GeocodeBuilder.resolve(address);
 
-        if (!coordinates) {
-            throw new Error("Адрес не найден");
+        if(!coordinates){
+            throw new Error(`Could not find address`);
         }
-        const result = PointRepository.putOne(address, coordinates.latitude, coordinates.longitude );
 
-        return result;
+        return await PointRepository.putPoint(address, coordinates.latitude, coordinates.longitude)
+
     }
+
+    async checkCoordinates(latitude:number,longitude:number) {
+        const existing = await PointRepository.findCoordinates(latitude,longitude);
+        if(existing){
+            return existing;
+        }
+
+        const address = await GeocodeBuilder.reverse(latitude,longitude);
+
+        if(!address){
+            throw new Error(`Could not find coordinates`);
+        }
+
+        return await PointRepository.putPoint(address, latitude, longitude)
+    }
+
 }

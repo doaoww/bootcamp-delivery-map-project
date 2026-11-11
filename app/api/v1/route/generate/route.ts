@@ -1,3 +1,5 @@
+//оптимизировать маршрут
+
 import { RouteService } from "@/modules/routing";
 import type { Point } from "@/types/point";
 

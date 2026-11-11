@@ -9,3 +9,8 @@ export type RouteResult = {
     points: Point[];
     algorithm: string;
 };
+
+export type SelectedPoint = {
+    latitude: number;
+    longitude: number;
+};
