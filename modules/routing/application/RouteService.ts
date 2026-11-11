@@ -1,13 +1,16 @@
-import {RouteOptimizerService} from "@/modules/routing/";
-import {Point , RouteResult} from "../domain/route";
+import {RouteOptimizer} from "@/lib";
+import {Point, RouteResult} from "@/modules/routing/domain/route";
 
-interface RouteService {
+interface RouteOptimizerService {
     optimize(points: Point[]): RouteResult;
 }
 
-export class RouteServiceV1 implements RouteService{
+export class RouteOptimizerServiceV1 implements RouteOptimizerService{
     optimize(points: Point[]){
-        const route = RouteOptimizerService.optimize(points);
-        return route;
+        return RouteOptimizer.optimize(points);
     }
+
 }
+
+
+

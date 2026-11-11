@@ -8,7 +8,7 @@ interface RouteBuilder{
 export class RouteBuilderV1 implements RouteBuilder{
 
      async buildRoute(points : Point[]) {
-        const route = await RequestMaker.request("/api/route", { points });
+        const route = await RequestMaker.request("/api/v1/route/generate/", { points });
 
         return route;
     }
