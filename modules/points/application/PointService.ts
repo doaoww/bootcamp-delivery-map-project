@@ -4,14 +4,13 @@ import {PointRepository} from "@/modules/points/";
 import {GeocodeBuilder} from "@/lib/";
 
 interface PointService {
-    checkAddress(address: string): Promise<Point>;
-    checkCoordinates(latitude:number,longitude:number) : Promise<Point>;
+    checkAddress(address: string): Promise<Point | null>;
+    checkCoordinates(latitude:number,longitude:number) : Promise<Point | null>;
 }
 
 export class PointServiceV1 implements PointService {
 
-    async checkAddress(address: string): Promise<Point> { //проверить есть ли эта точка в табл поинтс если да то вернуть
-        //если нет то putPoint и GeocodeBuilder
+    async checkAddress(address: string): Promise<Point> {
         address = address.trim();
         const existing = await PointRepository.findAddress(address);
         if(existing){

@@ -1,6 +1,5 @@
 "use client";
 
-
 import dynamic from "next/dynamic";
 import Sidebar from "@/components/SideBar";
 import {useDelivery} from "@/hooks/useDelivery";
@@ -13,7 +12,13 @@ export default  function Home(){
         route,
         error,
         addAddress,
-        buildRoute
+        addPoint,
+        buildRoute,
+        SelectedPoint ,
+        handleStart,
+        handleClear,
+        isSelecting,
+        handleSelect
     } = useDelivery();
     return (
         <main className="container">
@@ -21,12 +26,17 @@ export default  function Home(){
                 <Sidebar
                     points={points}
                     addAddress={addAddress}
+                    addPoint={addPoint}
                     buildRoute={buildRoute}
+                    SelectedPoint={SelectedPoint}
+                    onStart={handleStart}
+                    onClear={handleClear}
+
                 />
                 {error && <div className="error-message">{error}</div>}
             </div>
             <div className="map">
-                <DeliveryMap points={points} routePoints={route?.points ?? []} />
+                <DeliveryMap points={points} routePoints={route?.points ?? []} SelectedPoint={SelectedPoint} isSelecting={isSelecting} onSelect={handleSelect} />
             </div>
         </main>
     );

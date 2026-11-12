@@ -3,7 +3,8 @@ import type {Point} from "./route.ts";
 
 interface RouteRepository {
     getAll(): Promise<Point[]>;
-    putPoint(point : Point): Promise<Point>;
+    putPoint(pointId : string): Promise<Point>;
+    deletePoint(pointId : string): Promise<Point>
 }
 
 export class RouteRepositoryV1 implements RouteRepository {
@@ -21,11 +22,14 @@ export class RouteRepositoryV1 implements RouteRepository {
     async putPoint(pointId : string): Promise<Point> {
         const result = await pool.query(
             `
-            WITH inserted as (INSERT INTO routes (point_id)
-            VALUES ($1)
-            RETURNING point_id)
-            SELECT p.id, p.address, p.latitude, p.longitude 
-            FROM inserted i join points p on i.point_id = p.id
+                WITH inserted AS (
+                INSERT INTO routes (point_id)
+                VALUES ($1)
+                    RETURNING point_id
+                    )
+                SELECT p.id, p.address, p.latitude, p.longitude
+                FROM inserted i
+                         JOIN points p ON i.point_id = p.id
             `, [pointId]
         );
 
@@ -34,7 +38,16 @@ export class RouteRepositoryV1 implements RouteRepository {
 
     async deletePoint(pointId : string): Promise<Point> {
         const result = await pool.query(
-            'DELETE FROM routes WHERE point.point_id = p.id',
+            `
+        WITH deleted AS (
+        DELETE FROM routes
+        WHERE point_id = $1
+            RETURNING point_id
+        )
+        SELECT p.id, p.address, p.latitude, p.longitude
+        FROM deleted d
+        JOIN points p ON d.point_id = p.id
+        `,
         )
         return result.rows[0];
     }

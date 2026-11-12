@@ -19,7 +19,7 @@ export default function AddressForm({ addAddress }: Props) {
     return (
         <form onSubmit={(event) => {
             event.preventDefault();
-            handleSubmit();
+            handleSubmit().then(() => {});
         }}>
             <input
                 type="text"

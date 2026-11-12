@@ -1,7 +1,7 @@
 import {HttpRequestMaker} from "@/services/HttpService";
-import PointHandlerV1 from "@/services/PointService";
-import {RouteBuilderV1} from "@/services/RouteService";
+import {PointServiceV1} from "@/services/PointService";
+import {RouteServiceV1} from "@/services/RouteService";
 
 export const RequestMaker = new HttpRequestMaker();
-export const PointHandler = new PointHandlerV1();
-export const RouteBuilder = new RouteBuilderV1();
+export const PointService = new PointServiceV1();
+export const RouteService = new RouteServiceV1();

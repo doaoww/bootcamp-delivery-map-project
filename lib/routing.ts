@@ -1,13 +1,12 @@
 import type { Point } from "@/types/point";
 
-interface RouteOptimizer{
+interface RouteOptimizerService {
     optimize(points: Point[]): {points: Point[] , algorithm: string};
-
 }
 
-export class TwoOptOptimizer implements RouteOptimizer {
+export class TwoOptOptimizerService implements RouteOptimizerService  {
 
-     optimize(points: Point[]){
+     optimize(points: Point[]) {
         if (points.length < 2) {
             throw new Error("минимум две точки");
         }
@@ -25,7 +24,7 @@ export class TwoOptOptimizer implements RouteOptimizer {
         };
     }
 
-    distance(a: Point, b: Point) {
+    private distance(a: Point, b: Point) {
         const rad = (x: number) => x * Math.PI / 180;
 
         const dLat = rad(b.latitude - a.latitude);
@@ -41,7 +40,7 @@ export class TwoOptOptimizer implements RouteOptimizer {
     }
 
 
-    length(route: number[], graph: number[][]) {
+    private length(route: number[], graph: number[][]) {
         let total = 0;
 
         for (let i = 0; i < route.length - 1; i++) {
@@ -54,7 +53,7 @@ export class TwoOptOptimizer implements RouteOptimizer {
         return total;
     }
 
-    nearestNeighbor(graph: number[][]) {
+    private nearestNeighbor(graph: number[][]) {
         const route = [0];
         const visited = new Set([0]);
 
@@ -75,7 +74,7 @@ export class TwoOptOptimizer implements RouteOptimizer {
         return route;
     }
 
-    twoOpt(startRoute: number[], graph: number[][]) {
+    private twoOpt(startRoute: number[], graph: number[][]) {
         let route = [...startRoute];
         let improved = true;
 

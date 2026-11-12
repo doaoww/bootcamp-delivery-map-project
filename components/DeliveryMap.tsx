@@ -1,14 +1,18 @@
 "use client";
 
 import {MapContainer, TileLayer, CircleMarker, Tooltip, Polyline} from "react-leaflet";
-import type { Point } from "@/types/point";
+import type { Point , SelectedPoint } from "@/types/point";
+import MapClickHandler from "./MapClickHandler";
 
 type Props = {
     points: Point[];
     routePoints: Point[];
+    SelectedPoint: SelectedPoint | null;
+    isSelecting: boolean;
+    onSelect(latitude: number, longitude: number): void;
 };
 
-export default function DeliveryMap({ points, routePoints }: Props) {
+export default function DeliveryMap({ points, routePoints, SelectedPoint ,isSelecting, onSelect }: Props) {
     const routeCoordinates: [number, number][] = routePoints.map(point => [
         point.latitude,
         point.longitude,
@@ -23,6 +27,19 @@ export default function DeliveryMap({ points, routePoints }: Props) {
                 url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution="&copy; OpenStreetMap contributors"
             />
+
+            <MapClickHandler onSelect={onSelect} isSelecting={ isSelecting}></MapClickHandler>
+
+            {SelectedPoint && (
+                <CircleMarker
+                    center={[
+                        SelectedPoint.latitude,
+                        SelectedPoint.longitude
+                    ]}
+                    radius={8}
+                    color="red"
+                />
+            )}
 
             {points.map((point, index) => (
                 <CircleMarker

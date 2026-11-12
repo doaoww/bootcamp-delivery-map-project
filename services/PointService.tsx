@@ -2,17 +2,25 @@ import type {Point} from "@/types/point";
 import {RequestMaker} from "@/services/index";
 
 
-interface PointHandler {
-    addAddress(address: string): Promise<Point>;
+interface PointService {
+    getAll() : Promise<Point[]>;
+    addPointAddress(address: string): Promise<Point>;
+    addPointCoordinates(latitude: number,longitude: number) : Promise<Point>;
 }
-export class PointHandlerV1 implements PointHandler {
+export class PointServiceV1 implements PointService {
+    async getAll(){
+        return await RequestMaker.request("/api/v1/route/",{},'GET');
+    }
 
-     async addAddress(address: string) {
-        const point: Point = await RequestMaker.request("/api/backend", { address });
+    async addPointAddress(address: string) {
+        const point= await RequestMaker.request(`/api/v1/geocoder?address=${encodeURIComponent(address)}`, { address },'GET');
+        const result = await RequestMaker.request("/api/v1/route/points", { point_id : point.id },'POST');
+        return result;
+    }
 
-        return point;
+    async addPointCoordinates(latitude: number,longitude: number) {
+        const point = await RequestMaker.request(`/api/v1/geocoder?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}`, { latitude, longitude},'GET');
+        const result = await RequestMaker.request("/api/v1/route/points", { point_id : point.id },'POST');
+        return result;
     }
 }
-
-
-

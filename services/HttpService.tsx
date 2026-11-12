@@ -1,15 +1,28 @@
+type Method = "GET" | "POST" | "PUT" | "DELETE";
+
 interface RequestMaker{
-    request(url: string,body:object): Promise<unknown>;
+    request(url: string,
+            body:object,
+            method: Method,
+            ): Promise<unknown>;
 }
 
 export class HttpRequestMaker implements RequestMaker {
-    async request(url: string, body: object) {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-        });
+    async request(url: string, body: object , method: Method,) {
 
+        let response : Response;
+
+        if(method !== 'GET'){
+            response = await fetch(url, {
+                method: method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+        }else{
+            response = await fetch(url, {
+                method: method
+            });
+        }
         let data;
         try {
             data = await response.json();
@@ -21,4 +34,5 @@ export class HttpRequestMaker implements RequestMaker {
         }
         return data;
     }
+
 }

@@ -41,11 +41,10 @@ export class GeocodeBuilderV2 implements GeocodeBuilder{
 
     async reverse(latitude:number,longitude:number): Promise<string | null>{
 
-        const url = new URL("https://nominatim.openstreetmap.org/search");
+        const url = new URL("https://nominatim.openstreetmap.org/reverse");
         url.searchParams.set("lat", String(latitude));
         url.searchParams.set("lon", String(longitude));
         url.searchParams.set("format", "json");
-        url.searchParams.set("limit", "1");
 
         const response = await fetch(url, {
                 headers: { "User-Agent": "DeliveryApp/1.0 (contact: dilaravahitova215@gmail.com)" }

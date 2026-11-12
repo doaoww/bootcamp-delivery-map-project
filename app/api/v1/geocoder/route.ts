@@ -11,7 +11,7 @@
 
 import { PointService} from "@/modules/points";
 
-async function GET(request: Request)  {
+export async function GET(request: Request)  {
     const {searchParams} = new URL(request.url);
 
     const address = searchParams.get('address');
@@ -19,14 +19,20 @@ async function GET(request: Request)  {
     const longitude = searchParams.get('longitude');
 
     if(address){
-        const result = PointService.checkAddress(address)
-        return result;
+        const result = await PointService.checkAddress(address);
+        return Response.json(result);
 
     }else if(latitude!=null && longitude!=null){
         const lat = Number(latitude);
         const lon = Number(longitude);
 
-        const result = PointService.checkCoordinates(lat,lon);
-        return result;
+        const result = await PointService.checkCoordinates(lat, lon);
+        return Response.json(result);
     }
+
+    return Response.json(
+        { error: "Address or coordinates required" },
+        { status: 400 }
+    );
+
 }

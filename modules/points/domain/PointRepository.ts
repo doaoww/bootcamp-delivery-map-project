@@ -16,23 +16,23 @@ export class PointRepositoryV1 implements PointRepository {
                  RETURNING id, address, latitude, longitude`,
             [address, latitude ,longitude]
         );
-        return result.rows[0];
+        return result.rows[0] ;
     }
 
     async findAddress(address : string): Promise<Point> {
         const result = await pool.query(
-            'SELECT EXISTS (SELECT 1 FROM points WHERE address=$1) as exists',[address]
+            'SELECT id, address, latitude, longitude FROM points WHERE address = $1 LIMIT 1',[address]
         )
 
-        return result.rows[0].exists;
+        return result.rows[0] ?? null;
     }
 
     async findCoordinates(latitude:number, longitude:number): Promise<Point> {
         const result = await pool.query(
-            'SELECT EXISTS (SELECT 1 FROM points WHERE latitude=$1,longitude=$2 ) as exists',[latitude,longitude]
+            'SELECT id, address, latitude, longitude FROM points WHERE latitude = $1 AND longitude = $2 LIMIT 1',[latitude,longitude]
         )
 
-        return result.rows[0].exists;
+        return result.rows[0] ?? null;
     }
 
 }
