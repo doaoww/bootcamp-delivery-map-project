@@ -13,22 +13,36 @@ type Props = {
     SelectedPoint: SelectedPoint | null;
     onStart: () => void;
     onClear: () => void;
+    deletePoint: (pointId: string) => Promise<void>;
 };
 
-export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear }: Props) {
+export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear, deletePoint }: Props) {
     return (
         <aside className="sidebar">
             <h1>Карта</h1>
 
-            <AddressForm addAddress={addAddress} />
-            <PointPicker onStart={onStart} SelectedPoint={SelectedPoint} addPoint={addPoint} onClear={onClear}></PointPicker>
+            <div className="point-entry">
+                <AddressForm addAddress={addAddress} />
+                <PointPicker onStart={onStart} SelectedPoint={SelectedPoint} addPoint={addPoint} onClear={onClear} />
+            </div>
 
             <h3>Адресов: {points.length}</h3>
 
             {points.map((point, index) => (
                 <div className="point" key={point.id}>
-                    <h3>Точка {index + 1}</h3>
-                    <p>Адрес: {point.address}</p>
+                    <div className="point-details">
+                        <h3>Точка {index + 1}</h3>
+                        <p>Адрес: {point.address}</p>
+                    </div>
+                    <button
+                        type="button"
+                        className="point-delete-button"
+                        aria-label={`Удалить точку ${index + 1}`}
+                        title="Удалить точку"
+                        onClick={() => deletePoint(point.id)}
+                    >
+                        <span className="trash-icon" aria-hidden="true" />
+                    </button>
                 </div>
             ))}
 

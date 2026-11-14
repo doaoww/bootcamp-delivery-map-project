@@ -18,7 +18,8 @@ export default  function Home(){
         handleStart,
         handleClear,
         isSelecting,
-        handleSelect
+        handleSelect,
+        deletePoint
     } = useDelivery();
     return (
         <main className="container">
@@ -31,7 +32,7 @@ export default  function Home(){
                     SelectedPoint={SelectedPoint}
                     onStart={handleStart}
                     onClear={handleClear}
-
+                    deletePoint={deletePoint}
                 />
                 {error && <div className="error-message">{error}</div>}
             </div>

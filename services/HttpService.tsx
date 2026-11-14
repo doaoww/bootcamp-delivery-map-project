@@ -23,16 +23,25 @@ export class HttpRequestMaker implements RequestMaker {
                 method: method
             });
         }
-        let data;
-        try {
-            data = await response.json();
-        } catch {
-            throw new Error("Что-то пошло не так");
-        }
+
+
+
         if (!response.ok) {
+            let data;
+            try {
+                data = await response.json();
+            } catch {
+                throw new Error("Что-то пошло не так");
+            }
+
             throw new Error(data?.error || "Что-то пошло не так");
         }
-        return data;
+
+        if (response.status === 204) {
+            return null;
+        }
+
+        return await response.json();;
     }
 
 }

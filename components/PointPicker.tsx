@@ -24,10 +24,18 @@ export default function PointPicker({onStart,SelectedPoint, addPoint,onClear } :
     }
 
     return (
-        <div>
-            <button onClick={onStart}>Выбрать точку на карте</button>
+        <div className="point-picker">
+            <button
+                type="button"
+                className="map-pick-button"
+                aria-label="Выбрать точку на карте"
+                title="Выбрать точку на карте"
+                onClick={onStart}
+            >
+                <span className="map-pin-icon" aria-hidden="true" />
+            </button>
 
-            <button disabled={!SelectedPoint} onClick = {handleSubmit}>Подтвердить</button>
+            <button className="map-confirm-button" disabled={!SelectedPoint} onClick = {handleSubmit}>Подтвердить</button>
         </div>
     )
 }

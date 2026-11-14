@@ -72,6 +72,22 @@ export function useDelivery() {
         }
     }
 
+    async function deletePoint(pointId : string){
+        console.log("deletePoint");
+        setError("");
+        try {
+            const point = await PointService.deletePoint(pointId);
+            setPoints(prev =>
+                prev.filter(point => point.id !== pointId)
+            );
+            setRoute(null);
+            return true;
+        } catch (error) {
+            showError(error);
+            return false;
+        }
+    }
+
     async function buildRoute() {
         if (points.length < 2) return;
         setError("");
@@ -95,6 +111,7 @@ export function useDelivery() {
         handleClear,
         isSelecting,
         handleSelect,
+        deletePoint
     };
 }
 

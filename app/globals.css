@@ -104,10 +104,65 @@ body {
 }
 
 .point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 12px;
   background: #f1f5f9;
   border: 1px solid #e2e8f0;
   border-radius: 9px;
+}
+
+.point-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar .point-delete-button {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.sidebar .point-delete-button:hover {
+  background: #cbd5e1;
+}
+
+.trash-icon {
+  position: relative;
+  width: 12px;
+  height: 13px;
+  margin-top: 4px;
+  border: 2px solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 3px 3px;
+}
+
+.trash-icon::before,
+.trash-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.trash-icon::before {
+  top: -2px;
+  width: 16px;
+  height: 2px;
+}
+
+.trash-icon::after {
+  top: -5px;
+  width: 6px;
+  height: 3px;
 }
 
 .point p {
@@ -172,4 +227,60 @@ body {
     flex: 1;
     min-height: 250px;
   }
+}
+
+.point-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 10px;
+}
+
+.point-picker {
+  display: contents;
+}
+
+.map-confirm-button {
+  grid-column: 1 / -1;
+}
+
+.sidebar .address-form {
+  flex-direction: row;
+  align-items: center;
+}
+
+.address-form input {
+  min-width: 0;
+  height: 44px;
+}
+
+.sidebar .add-button,
+.sidebar .map-pick-button {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.sidebar .add-button {
+  font-size: 26px;
+}
+
+.map-pin-icon {
+  width: 17px;
+  height: 17px;
+  border: 2px solid currentColor;
+  border-radius: 50% 50% 50% 0;
+  transform: translateY(-2px) rotate(-45deg);
+  display: grid;
+  place-items: center;
+}
+
+.map-pin-icon::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
 }

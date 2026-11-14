@@ -20,7 +20,7 @@ export default function AddressForm({ addAddress }: Props) {
         <form onSubmit={(event) => {
             event.preventDefault();
             handleSubmit().then(() => {});
-        }}>
+        }} className="address-form">
             <input
                 type="text"
                 placeholder="Введите адрес"
@@ -29,9 +29,10 @@ export default function AddressForm({ addAddress }: Props) {
                 required
             />
 
-            <button type="submit">
-                Добавить адрес
+            <button type="submit" className="add-button">
+                +
             </button>
+
         </form>
     );
 }

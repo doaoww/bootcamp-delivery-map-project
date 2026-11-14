@@ -23,4 +23,9 @@ export class PointServiceV1 implements PointService {
         const result = await RequestMaker.request("/api/v1/route/points", { point_id : point.id },'POST');
         return result;
     }
+
+    async deletePoint(pointId : string){
+        const point = await RequestMaker.request(`/api/v1/route/points/${pointId}`,{pointId : pointId},'DELETE');
+        return point;
+    }
 }

@@ -47,7 +47,7 @@ export class RouteRepositoryV1 implements RouteRepository {
         SELECT p.id, p.address, p.latitude, p.longitude
         FROM deleted d
         JOIN points p ON d.point_id = p.id
-        `,
+        `,[pointId]
         )
         return result.rows[0];
     }
