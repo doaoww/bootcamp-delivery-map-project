@@ -33,6 +33,7 @@ export default  function Home(){
                     onStart={handleStart}
                     onClear={handleClear}
                     deletePoint={deletePoint}
+                    isSelecting = {isSelecting}
                 />
                 {error && <div className="error-message">{error}</div>}
             </div>

@@ -14,16 +14,17 @@ type Props = {
     onStart: () => void;
     onClear: () => void;
     deletePoint: (pointId: string) => Promise<void>;
+    isSelecting: boolean;
 };
 
-export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear, deletePoint }: Props) {
+export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear, deletePoint,isSelecting }: Props) {
     return (
         <aside className="sidebar">
             <h1>Карта</h1>
 
             <div className="point-entry">
-                <AddressForm addAddress={addAddress} />
-                <PointPicker onStart={onStart} SelectedPoint={SelectedPoint} addPoint={addPoint} onClear={onClear} />
+                <AddressForm addAddress={addAddress} SelectedPoint={SelectedPoint} addPoint={addPoint} onClear={onClear}/>
+                <PointPicker onStart={onStart} isSelecting={isSelecting}/>
             </div>
 
             <h3>Адресов: {points.length}</h3>

@@ -1,27 +1,11 @@
 "use client";
 
-import type {SelectedPoint} from "@/types/point";
-
 type Props = {
     onStart: () => void;
-    SelectedPoint: SelectedPoint | null;
-    addPoint : (latitude:number, longitude:number) => Promise<boolean>;
-    onClear: () => void;
-
+    isSelecting: boolean;
 }
 
-export default function PointPicker({onStart,SelectedPoint, addPoint,onClear } : Props) {
-    async function handleSubmit() {
-        console.log("submiting")
-        if(!SelectedPoint){
-            return;
-        }
-        const success = await addPoint(SelectedPoint.latitude, SelectedPoint.longitude);
-
-        if(success){
-            onClear();
-        }
-    }
+export default function PointPicker({onStart,isSelecting} : Props) {
 
     return (
         <div className="point-picker">
@@ -34,8 +18,10 @@ export default function PointPicker({onStart,SelectedPoint, addPoint,onClear } :
             >
                 <span className="map-pin-icon" aria-hidden="true" />
             </button>
+            {isSelecting && (
+                <h4>Нажмите на карту, чтобы выбрать точку</h4>
+            )}
 
-            <button className="map-confirm-button" disabled={!SelectedPoint} onClick = {handleSubmit}>Подтвердить</button>
         </div>
     )
 }

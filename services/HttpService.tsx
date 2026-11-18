@@ -24,8 +24,6 @@ export class HttpRequestMaker implements RequestMaker {
             });
         }
 
-
-
         if (!response.ok) {
             let data;
             try {
@@ -41,7 +39,7 @@ export class HttpRequestMaker implements RequestMaker {
             return null;
         }
 
-        return await response.json();;
+        return await response.json();
     }
 
 }
