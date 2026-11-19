@@ -10,7 +10,4 @@ export type RouteResult = {
     algorithm: string;
 };
 
-export type SelectedPoint = {
-    latitude: number;
-    longitude: number;
-};
+
