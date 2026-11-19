@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import type {Point, RouteResult, SelectedPoint} from "@/types/point";
+import type {Point, RouteResult} from "@/types/point";
 import { RouteService,PointService} from "@/services/index";
 
 
@@ -8,8 +8,9 @@ export function useDelivery() {
     const [route, setRoute] = useState<RouteResult | null>(null);
     const [error, setError] = useState("");
     const [SelectedPoint, setSelectedPoint] =
-        useState<SelectedPoint | null>(null);
+        useState<Point | null>(null);
     const [isSelecting, setIsSelecting] = useState(false);
+    const [isResolvingPoint, setIsResolvingPoint] = useState(false);
 
     useEffect(() => {
         async function loadPoints() {
@@ -24,9 +25,20 @@ export function useDelivery() {
         loadPoints();
     }, []);
 
-    function handleSelect(latitude: number, longitude: number) {
+    async function handleSelect(latitude: number, longitude: number) {
         console.log("Координаты получены:", latitude, longitude);
-        setSelectedPoint({ latitude, longitude });
+        setError("");
+        setSelectedPoint(null);
+        setIsResolvingPoint(true)
+        try{
+            const point = await PointService.resolveCoordinates(latitude, longitude);
+            setSelectedPoint(point);
+        }catch(error){
+            showError(error);
+        }finally {
+            setIsResolvingPoint(false);
+        }
+
     }
 
     function handleStart() {
@@ -58,12 +70,12 @@ export function useDelivery() {
         }
     }
 
-    async function addPoint(latitude: number, longitude: number) {
+    async function addPoint(point : Point) {
         console.log("addPoint");
         setError("");
         try {
-            const point = await PointService.addPointCoordinates(latitude,longitude);
-            setPoints((previous) => [...previous, point]);
+            const routePoint = await PointService.addPointToRoute(point);
+            setPoints((previous) => [...previous, routePoint]);
             setRoute(null);
             return true;
         } catch (error) {
@@ -111,7 +123,8 @@ export function useDelivery() {
         handleClear,
         isSelecting,
         handleSelect,
-        deletePoint
+        deletePoint,
+        isResolvingPoint
     };
 }
 
