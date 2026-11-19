@@ -19,7 +19,8 @@ export default  function Home(){
         handleClear,
         isSelecting,
         handleSelect,
-        deletePoint
+        deletePoint,
+        isResolvingPoint
     } = useDelivery();
     return (
         <main className="container">
@@ -34,6 +35,7 @@ export default  function Home(){
                     onClear={handleClear}
                     deletePoint={deletePoint}
                     isSelecting = {isSelecting}
+                    isResolvingPoint = {isResolvingPoint}
                 />
                 {error && <div className="error-message">{error}</div>}
             </div>

@@ -3,27 +3,27 @@
 import AddressForm from "./AddressForm";
 import PointPicker from "@/components/PointPicker";
 import type { Point } from "@/types/point";
-import type {SelectedPoint} from "@/types/point";
 
 type Props = {
     points: Point[];
     addAddress: (address: string) => Promise<boolean>;
-    addPoint: (latitude: number, longitude:number) => Promise<boolean>;
+    addPoint: (point : Point) => Promise<boolean>;
     buildRoute: () => Promise<void>;
-    SelectedPoint: SelectedPoint | null;
+    SelectedPoint: Point | null;
     onStart: () => void;
     onClear: () => void;
-    deletePoint: (pointId: string) => Promise<void>;
+    deletePoint: (pointId: string) => Promise<boolean>;
     isSelecting: boolean;
+    isResolvingPoint : boolean;
 };
 
-export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear, deletePoint,isSelecting }: Props) {
+export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear, deletePoint,isSelecting,isResolvingPoint }: Props) {
     return (
         <aside className="sidebar">
             <h1>Карта</h1>
 
             <div className="point-entry">
-                <AddressForm addAddress={addAddress} SelectedPoint={SelectedPoint} addPoint={addPoint} onClear={onClear}/>
+                <AddressForm addAddress={addAddress} SelectedPoint={SelectedPoint} addPoint={addPoint} onClear={onClear} isResolvingPoint={isResolvingPoint}/>
                 <PointPicker onStart={onStart} isSelecting={isSelecting}/>
             </div>
 
