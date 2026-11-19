@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import type {SelectedPoint} from "@/types/point";
+import type {Point} from "@/types/point";
 
 type Props = {
     addAddress: (address: string) => Promise<boolean>;
-    SelectedPoint: SelectedPoint | null;
-    addPoint : (latitude:number, longitude:number) => Promise<boolean>;
+    SelectedPoint: Point | null;
+    addPoint : (point : Point) => Promise<boolean>;
     onClear: () => void;
+    isResolvingPoint : boolean;
 };
 
-export default function AddressForm({ addAddress, SelectedPoint,addPoint, onClear }: Props) {
+export default function AddressForm({ addAddress, SelectedPoint,addPoint, onClear,isResolvingPoint }: Props) {
     const [address, setAddress] = useState("");
 
     async function handleSubmit() {
@@ -23,7 +24,7 @@ export default function AddressForm({ addAddress, SelectedPoint,addPoint, onClea
         if(!SelectedPoint){
             return;
         }
-        const success = await addPoint(SelectedPoint.latitude, SelectedPoint.longitude);
+        const success = await addPoint(SelectedPoint);
 
         if(success){
             onClear();
@@ -46,6 +47,9 @@ export default function AddressForm({ addAddress, SelectedPoint,addPoint, onClea
             <button type="submit" className="add-button" disabled={!SelectedPoint && !address} >
                 +
             </button>
+
+            {isResolvingPoint && <p>Определяем адрес…</p>}
+            {SelectedPoint && <p>Выбранный адрес: {SelectedPoint.address}</p>}
 
         </form>
     );
