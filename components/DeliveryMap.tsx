@@ -1,22 +1,22 @@
 "use client";
 
 import {MapContainer, TileLayer, CircleMarker, Tooltip, Polyline} from "react-leaflet";
-import type { Point , SelectedPoint } from "@/types/point";
+import type { Point , OsrmRoute } from "@/types/point";
 import MapClickHandler from "./MapClickHandler";
 
 type Props = {
     points: Point[];
-    routePoints: Point[];
-    SelectedPoint: SelectedPoint | null;
+    routePoints: OsrmRoute;
+    SelectedPoint: Point | null;
     isSelecting: boolean;
     onSelect(latitude: number, longitude: number): void;
 };
 
 export default function DeliveryMap({ points, routePoints, SelectedPoint ,isSelecting, onSelect }: Props) {
-    const routeCoordinates: [number, number][] = routePoints.map(point => [
-        point.latitude,
-        point.longitude,
-    ]);
+
+    const routeCoordinates = routePoints.map(
+        ([lon, lat]) => [lat, lon] as [number, number]
+    ) ?? [];
 
     return (
         <MapContainer
