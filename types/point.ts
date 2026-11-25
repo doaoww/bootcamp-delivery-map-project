@@ -11,3 +11,12 @@ export type RouteResult = {
 };
 
 
+export type OsrmRoute = {
+    distance: number;
+    duration: number;
+    geometry: {
+        type: "LineString";
+        coordinates: [number, number][];
+    };
+}
+
