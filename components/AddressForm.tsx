@@ -48,8 +48,7 @@ export default function AddressForm({ addAddress, SelectedPoint,addPoint, onClea
                 +
             </button>
 
-            {isResolvingPoint && <p>Определяем адрес…</p>}
-            {SelectedPoint && <p>Выбранный адрес: {SelectedPoint.address}</p>}
+
 
         </form>
     );

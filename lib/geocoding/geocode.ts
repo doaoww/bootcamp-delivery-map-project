@@ -45,6 +45,7 @@ export class GeocodeBuilderV2 implements GeocodeBuilder{
         url.searchParams.set("lat", String(latitude));
         url.searchParams.set("lon", String(longitude));
         url.searchParams.set("format", "json");
+        url.searchParams.set("addressdetails", "1");
 
         const response = await fetch(url, {
                 headers: { "User-Agent": "DeliveryApp/1.0 (contact: dilaravahitova215@gmail.com)" }
@@ -60,7 +61,13 @@ export class GeocodeBuilderV2 implements GeocodeBuilder{
             return null;
         }
 
-        return data.display_name ?? null;
+        const street = data.address?.road;
+        const houseNumber = data.address?.house_number;
 
+        const shortAddress = [street, houseNumber]
+            .filter(Boolean)
+            .join(", ");
+
+        return shortAddress || data.display_name || null;
     }
 }

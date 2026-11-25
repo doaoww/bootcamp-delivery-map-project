@@ -18,10 +18,6 @@ export default function PointPicker({onStart,isSelecting} : Props) {
             >
                 <span className="map-pin-icon" aria-hidden="true" />
             </button>
-            {isSelecting && (
-                <h4>Нажмите на карту, чтобы выбрать точку</h4>
-            )}
-
         </div>
     )
 }

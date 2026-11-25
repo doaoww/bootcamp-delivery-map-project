@@ -284,3 +284,22 @@ body {
   border-radius: 50%;
   background: currentColor;
 }
+.point-picker-info {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border: 1px solid #3b82f6;
+  border-radius: 10px;
+  background-color: #eff6ff;
+  color: #1e3a5f;
+}
+
+.point-picker-info h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.point-picker-info p {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+}

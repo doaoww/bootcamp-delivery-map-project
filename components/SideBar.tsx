@@ -24,8 +24,22 @@ export default function Sidebar({ points, addAddress,addPoint, buildRoute, Selec
 
             <div className="point-entry">
                 <AddressForm addAddress={addAddress} SelectedPoint={SelectedPoint} addPoint={addPoint} onClear={onClear} isResolvingPoint={isResolvingPoint}/>
-                <PointPicker onStart={onStart} isSelecting={isSelecting}/>
+                <PointPicker onStart={onStart} isSelecting={isSelecting} />
             </div>
+
+            {isSelecting && (
+                <div className="point-picker-info">
+                    <h4>Нажмите на карту, чтобы выбрать точку</h4>
+
+                    {isResolvingPoint && <p>Определяем адрес…</p>}
+
+                    {SelectedPoint && (
+                        <p>
+                            Выбранный адрес: <strong>{SelectedPoint.address}</strong>
+                        </p>
+                    )}
+                </div>
+            )}
 
             <h3>Адресов: {points.length}</h3>
 
