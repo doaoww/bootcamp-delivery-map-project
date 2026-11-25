@@ -12,6 +12,8 @@ export function useDelivery() {
     const [isSelecting, setIsSelecting] = useState(false);
     const [isResolvingPoint, setIsResolvingPoint] = useState(false);
 
+    const [routes , setRoutes] = useState<[number, number][]>([]);
+
     useEffect(() => {
         async function loadPoints() {
             try {
@@ -106,14 +108,23 @@ export function useDelivery() {
         try {
             const result =  await RouteService.buildRoute(points);
             setRoute(result);
+            await getRoutes(result.points)
         } catch (error) {
             showError(error);
         }
     }
 
+    async function getRoutes(route : Point[]) {
+        if (points.length < 2) return;
+        setError("");
+        const result =  await RouteService.getRoutes(route);
+        setRoutes(result.geometry.coordinates);
+
+    }
+
     return {
         points,
-        route,
+        routes,
         error,
         addAddress,
         addPoint,

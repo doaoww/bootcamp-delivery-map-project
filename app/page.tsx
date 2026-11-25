@@ -9,7 +9,7 @@ const DeliveryMap = dynamic(() => import("@/components/DeliveryMap"), { ssr: fal
 export default  function Home(){
     const {
         points,
-        route,
+        routes,
         error,
         addAddress,
         addPoint,
@@ -40,7 +40,7 @@ export default  function Home(){
                 {error && <div className="error-message">{error}</div>}
             </div>
             <div className="map">
-                <DeliveryMap points={points} routePoints={route?.points ?? []} SelectedPoint={SelectedPoint} isSelecting={isSelecting} onSelect={handleSelect} />
+                <DeliveryMap points={points} routePoints={routes ?? {}} SelectedPoint={SelectedPoint} isSelecting={isSelecting} onSelect={handleSelect} />
             </div>
         </main>
     );
