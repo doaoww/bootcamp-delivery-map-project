@@ -1,12 +1,13 @@
 import {RouteOptimizer} from "@/lib";
-import {Point, RouteResult} from "@/modules/routing/domain/route";
-import {RouteRepository} from "@/modules/routing";
+import {Point, RouteResult, OsrmResponse} from "@/modules/routing/domain/route";
+import {RouteRepository,OsrmService} from "@/modules/routing";
 
 interface RouteService {
     optimize(points: Point[]): RouteResult;
     getAll() : Promise<Point[]>;
     putPoint(point_id : string) : Promise<Point>;
-    deletePoint(point_id : string) : Promise<Point>
+    deletePoint(point_id : string) : Promise<Point>;
+    getRoute(points: Point[]) : Promise<OsrmResponse>;
 }
 
 export class RouteServiceV1 implements RouteService{
@@ -23,6 +24,10 @@ export class RouteServiceV1 implements RouteService{
     }
     async deletePoint(point_id : string) {
         return RouteRepository.deletePoint(point_id)
+    }
+
+    async getRoute(points: Point[]){
+        return OsrmService.getRoute(points);
     }
 
 }
