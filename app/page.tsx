@@ -20,7 +20,11 @@ export default  function Home(){
         isSelecting,
         handleSelect,
         deletePoint,
-        isResolvingPoint
+        isResolvingPoint,
+        distanceKm,
+        durationMin,
+        durationHours,
+        isRouting
     } = useDelivery();
     return (
         <main className="container">
@@ -36,6 +40,10 @@ export default  function Home(){
                     deletePoint={deletePoint}
                     isSelecting = {isSelecting}
                     isResolvingPoint = {isResolvingPoint}
+                    distanceKm = {distanceKm}
+                    durationMin = {durationMin}
+                    durationHours = {durationHours}
+                    isRouting={isRouting}
                 />
                 {error && <div className="error-message">{error}</div>}
             </div>

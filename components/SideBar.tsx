@@ -15,9 +15,13 @@ type Props = {
     deletePoint: (pointId: string) => Promise<boolean>;
     isSelecting: boolean;
     isResolvingPoint : boolean;
+    distanceKm : number;
+    durationMin : number;
+    durationHours : number;
+    isRouting : boolean;
 };
 
-export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear, deletePoint,isSelecting,isResolvingPoint }: Props) {
+export default function Sidebar({ points, addAddress,addPoint, buildRoute, SelectedPoint,onStart,onClear, deletePoint,isSelecting,isResolvingPoint,distanceKm,durationMin, durationHours , isRouting}: Props) {
     return (
         <aside className="sidebar">
             <h1>Карта</h1>
@@ -40,6 +44,14 @@ export default function Sidebar({ points, addAddress,addPoint, buildRoute, Selec
                     )}
                 </div>
             )}
+
+            {isRouting && (
+                <div className="point-picker-info">
+                    <p> Время маршрута : {durationHours} ч {durationMin} мин </p>
+                    <p> Дистансия : {distanceKm} км</p>
+                </div>
+            )}
+
 
             <h3>Адресов: {points.length}</h3>
 

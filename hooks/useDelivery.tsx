@@ -13,6 +13,12 @@ export function useDelivery() {
     const [isResolvingPoint, setIsResolvingPoint] = useState(false);
 
     const [routes , setRoutes] = useState<[number, number][]>([]);
+    const [distanceKm, setdistanceKm] = useState<number>(0);
+    const [durationMin, setdurationMin] = useState<number>(0);
+    const [durationHours, setdurationHours] = useState<number>(0);
+    const [isRouting, setIsRouting] = useState(false);
+
+
 
     useEffect(() => {
         async function loadPoints() {
@@ -47,11 +53,13 @@ export function useDelivery() {
         console.log("Режим выбора включён");
         setSelectedPoint(null);
         setIsSelecting(true);
+        setIsRouting(false);
     }
 
     function handleClear() {
         setSelectedPoint(null);
         setIsSelecting(false);
+        setIsRouting(false);
     }
 
 
@@ -65,6 +73,7 @@ export function useDelivery() {
             const point = await PointService.addPointAddress(address);
             setPoints((previous) => [...previous, point]);
             setRoute(null);
+            setIsRouting(false);
             return true;
         } catch (error) {
             showError(error);
@@ -79,6 +88,7 @@ export function useDelivery() {
             const routePoint = await PointService.addPointToRoute(point);
             setPoints((previous) => [...previous, routePoint]);
             setRoute(null);
+            setIsRouting(false);
             return true;
         } catch (error) {
             showError(error);
@@ -95,6 +105,7 @@ export function useDelivery() {
                 prev.filter(point => point.id !== pointId)
             );
             setRoute(null);
+            setIsRouting(false);
             return true;
         } catch (error) {
             showError(error);
@@ -119,7 +130,10 @@ export function useDelivery() {
         setError("");
         const result =  await RouteService.getRoutes(route);
         setRoutes(result.geometry.coordinates);
-
+        setdistanceKm(Math.round(result.distance / 1000));
+        setdurationMin (Math.round(result.duration / 60));
+        setdurationHours (Math.round(result.duration / 3600));
+        setIsRouting(true);
     }
 
     return {
@@ -135,7 +149,11 @@ export function useDelivery() {
         isSelecting,
         handleSelect,
         deletePoint,
-        isResolvingPoint
+        isResolvingPoint,
+        distanceKm,
+        durationMin,
+        durationHours,
+        isRouting
     };
 }
 
